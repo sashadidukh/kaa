@@ -6,13 +6,6 @@ nav: /:path/Programming-guide/Server-REST-APIs
 sort_idx: 60
 ---
 
-<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-  <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
-  <link href='css/custom.css' media='screen' rel='stylesheet' type='text/css'/>
-
   <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
   <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
   <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
@@ -25,7 +18,7 @@ sort_idx: 60
   <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
   <script src='lib/marked.js' type='text/javascript'></script>
   <script src='lib/swagger-oauth.js' type='text/javascript'></script>
-
+  <script src='lib/kaa-swagger-adaptor.js' type='text/javascript'></script>
   <script type="text/javascript">
     $(function () {
       window.swaggerUi = new SwaggerUi({
@@ -38,7 +31,13 @@ sort_idx: 60
         },
     onFailure: function(data) {
           log("debug");
-        }
+        },
+        onComplete: function(swaggerApi, swaggerUi) {
+          var kaaAdaptor = new kaaSwaggerAdaptor();
+          var toc = kaaAdaptor.buildSwaggerUiTocList(swaggerApi);
+          DOM.getInstance().replaceToc(toc);
+          kaaAdaptor.scrollToApiFromURL();
+        },
       });
       window.swaggerUi.load();
       function log() {
